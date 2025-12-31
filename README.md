@@ -21,12 +21,24 @@ Run an executor:
 `ash
 python asiosctl.py run decision-decomposition
 python asiosctl.py run qmck
-``
+git add README.md; git commit -m "Add top-level README documenting ASIOS execution set"; git push
+Set-Content execution_set.yaml @"
+version: 1
+executors:
+  decision-decomposition:
+    description: Deterministic decision decomposition engine
+    workdir: decision-decomposition
+    entrypoint: run_infrastructure_outage.py
+    type: python
 
-## Guarantees
+  qmck:
+    description: Quantum Measurement Contradiction Kit
+    workdir: QuantumMeasurementContradictionKit/src
+    entrypoint: -m qmck
+    type: python
 
-* Explicit entrypoints
-* Deterministic working directories
-* CI-validated executability
-
-This execution set is canonical. Changes must be committed and audited.
+  recursive-paradox-governance:
+    description: Recursive paradox governance adapters and ingestion
+    workdir: recursive-paradox-governance
+    entrypoint: cli.py
+    type: python
