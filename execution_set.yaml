@@ -1,13 +1,14 @@
+version: 1
+
 executors:
   decision-decomposition:
-    path: ../decision-decomposition
+    path: decision-decomposition
     entry: run_infrastructure_outage.py
-    type: python
+
   qmck:
-    path: ../QuantumMeasurementContradictionKit
-    entry: main.py
-    type: python
+    path: QuantumMeasurementContradictionKit
+    entry: qmck.py
+
   recursive-paradox-governance:
-    path: ../recursive-paradox-governance
+    path: recursive-paradox-governance
     entry: main.py
-    type: python
