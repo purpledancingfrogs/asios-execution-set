@@ -1,0 +1,34 @@
+﻿system: ASIOS
+description: Canonical execution manifest for Aureon ASI
+version: 1.0
+
+executors:
+  - name: DGK-Admissibility-Certifier
+    repo: https://github.com/purpledancingfrogs/DGK-Admissibility-Certifier
+    entrypoint: run_agent.py
+    input: json
+    output: certificate | refusal
+
+  - name: QuantumMeasurementContradictionKit
+    repo: https://github.com/purpledancingfrogs/QuantumMeasurementContradictionKit
+    entrypoint: python -m qmck
+    input: args
+    output: json_report
+
+  - name: Decision-Decomposition
+    repo: https://github.com/purpledancingfrogs/decision-decomposition
+    entrypoint: engine/demo_full_run.py
+    input: json
+    output: metrics
+
+  - name: Recursive-Paradox-Governance
+    repo: https://github.com/purpledancingfrogs/recursive-paradox-governance
+    entrypoint: cli.py
+    input: json
+    output: invariant_state
+
+  - name: Planetary-Coherence-OS
+    repo: https://github.com/purpledancingfrogs/planetary-coherence-OS
+    entrypoint: planetary_coherence_engine.py
+    input: json
+    output: coherence_state
