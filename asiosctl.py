@@ -1,20 +1,25 @@
-import sys, yaml, subprocess, pathlib
+import sys
+import yaml
+import subprocess
+from pathlib import Path
 
 def load():
-    with open('execution_set.yaml') as f:
-        return yaml.safe_load(f)['executors']
+    with open("execution_set.yaml") as f:
+        return yaml.safe_load(f)
+
+def list_execs():
+    for k in load()["executors"]:
+        print(k)
 
 def run(name):
-    ex = load()[name]
-    path = pathlib.Path(ex['path'])
-    entry = ex['entry']
-    subprocess.check_call([sys.executable, entry], cwd=path)
+    cfg = load()["executors"][name]
+    path = Path(cfg["path"]).resolve()
+    entry = cfg["entry"]
+    cmd = [sys.executable, entry] if entry.endswith(".py") else [entry]
+    subprocess.check_call(cmd, cwd=path)
 
-def main():
-    if sys.argv[1] == 'list':
-        print('\\n'.join(load().keys()))
-    if sys.argv[1] == 'run':
+if __name__ == "__main__":
+    if sys.argv[1] == "list":
+        list_execs()
+    elif sys.argv[1] == "run":
         run(sys.argv[2])
-
-if __name__ == '__main__':
-    main()
