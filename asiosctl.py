@@ -1,18 +1,19 @@
-import yaml, subprocess, sys, os
+import sys, yaml, subprocess, os
 
-with open('execution_set.yaml') as f:
-    cfg = yaml.safe_load(f)['execution_set']
+def load():
+    with open('execution_set.yaml','r') as f:
+        return yaml.safe_load(f)['executors']
 
 def run(name):
-    if name not in cfg:
-        raise SystemExit(f'Unknown executor: {name}')
-    ex = cfg[name]
-    path = ex['path']
-    entry = ex['entrypoint']
-    os.chdir(path)
-    subprocess.check_call([sys.executable, entry] if entry.endswith('.py') else [entry])
+    ex = load()[name]
+    cwd = os.path.abspath(ex.get('workdir','.'))
+    entry = ex['entry']
+    if ex.get('type') == 'module':
+        cmd = [sys.executable, '-m', entry]
+    else:
+        cmd = [sys.executable, entry]
+    subprocess.check_call(cmd, cwd=cwd)
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3 or sys.argv[1] != 'run':
-        raise SystemExit('usage: asiosctl run <executor>')
-    run(sys.argv[2])
+    if sys.argv[1] == 'run':
+        run(sys.argv[2])
