@@ -1,18 +1,13 @@
 executors:
   decision-decomposition:
-    description: Deterministic decision decomposition and invariant analysis
-    workdir: decision-decomposition
+    path: ../decision-decomposition
     entry: run_infrastructure_outage.py
     type: python
-
   qmck:
-    description: Quantum Measurement Contradiction Kit
-    workdir: QuantumMeasurementContradictionKit/src
-    entry: qmck
-    type: module
-
+    path: ../QuantumMeasurementContradictionKit
+    entry: main.py
+    type: python
   recursive-paradox-governance:
-    description: Recursive paradox governance engine
-    workdir: recursive-paradox-governance
+    path: ../recursive-paradox-governance
     entry: main.py
     type: python

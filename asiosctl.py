@@ -1,19 +1,20 @@
-import sys, yaml, subprocess, os
+import sys, yaml, subprocess, pathlib
 
 def load():
-    with open('execution_set.yaml','r') as f:
+    with open('execution_set.yaml') as f:
         return yaml.safe_load(f)['executors']
 
 def run(name):
     ex = load()[name]
-    cwd = os.path.abspath(ex.get('workdir','.'))
+    path = pathlib.Path(ex['path'])
     entry = ex['entry']
-    if ex.get('type') == 'module':
-        cmd = [sys.executable, '-m', entry]
-    else:
-        cmd = [sys.executable, entry]
-    subprocess.check_call(cmd, cwd=cwd)
+    subprocess.check_call([sys.executable, entry], cwd=path)
 
-if __name__ == '__main__':
+def main():
+    if sys.argv[1] == 'list':
+        print('\\n'.join(load().keys()))
     if sys.argv[1] == 'run':
         run(sys.argv[2])
+
+if __name__ == '__main__':
+    main()
